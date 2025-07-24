@@ -1,179 +1,171 @@
-<img src="./assets/logo.png" style="zoom:30%;" />
+# OpenLoong 动态控制
 
-# OpenLoong Dynamics Control
+## 基于 MPC 和 WBC 的类人机器人运动控制框架
 
-## Motion control framework for humanoid robots based on MPC and WBC
+请访问 🐉 OpenLoong 开源代码库！
 
-Please visit 🐉 OpenLoong open source code repository!
+OpenLoong 开源项目是由上海类人机器人有限公司、上海类人机器人制造创新中心和 OpenAtom 基金会共同运营的合作倡议。该代码库提供了基于 MPC（模型预测控制）和 WBC（全身控制）的类人机器人控制框架，可在 Mujoco 仿真平台上部署。基于上海类人机器人创新中心的“青龙”机器人模型，提供了三个运动示例：[行走](https://github.com/loongOpen/Openloong-dyn-control/blob/main/demo/walk_wbc.cpp)、[跳跃](https://github.com/loongOpen/Openloong-dyn-control/blob/main/demo/jump_mpc.cpp) 和 [盲障碍踩踏](https://github.com/loongOpen/Openloong-dyn-control/blob/main/demo/walk_mpc_wbc.cpp)。物理原型已实现 <b>行走</b> 和 <b>盲障碍踩踏</b> 动作。
 
-The OpenLoong open-source project is a collaborative initiative operated by Humanoid Robotics (Shanghai) Co., Ltd., the
-Shanghai Humanoid Robotics Manufacturing Innovation Center, and the OpenAtom Foundation. This repository provides a
-humanoid robot control framework based on MPC (Model Predictive Control) and WBC (Whole-Body Control), which can be
-deployed on the Mujoco simulation platform. Based on the "Qinglong" robot model from the Shanghai Humanoid Robotics
-Innovation Center, it offers three motion examples: [walking](https://github.com/loongOpen/Openloong-dyn-control/blob/main/demo/walk_wbc.cpp),
-[jumping](https://github.com/loongOpen/Openloong-dyn-control/blob/main/demo/jump_mpc.cpp), and [blind obstacle stepping](https://github.com/loongOpen/Openloong-dyn-control/blob/main/demo/walk_mpc_wbc.cpp). The physical
-prototype has achieved <b>walking</b> and <b>blind obstacle stepping <b>motions.
+📖 **[阅读中文版](./README-zh.md)**
 
-📖 **[Read this in Chinese / 阅读中文版](./README-zh.md)**
+## 项目特点
 
-## Project Features
+- **易于部署** 提供了一个全面的解决方案，用于部署代码执行环境，使用户能够轻松配置所需的工作环境。该代码库包括主要依赖项，消除了大量第三方库安装的需求，简化了整个部署过程。
+- **可扩展** 控制框架结构采用分层模块化设计，旨在增强系统的可维护性和可扩展性。系统的每个功能模块具有明确的逻辑和功能边界，为二次开发提供了更友好的开发者环境，使开发者更容易自定义和扩展系统功能。
+- **易于理解** 代码结构简洁，遵循基于功能的模块封装原则。使用总线进行模块间的数据交互，减少封装冗余，帮助降低代码复杂性。算法实现遵循简单的“读-计算-写”逻辑，提高了代码的可读性。
 
-- **​Easy Deployment** Provides a comprehensive solution for deploying code execution  environments, enabling users to easily configure their required working  environments. This code repository includes major dependencies,  eliminating the need for extensive third-party library installations and  simplifying the entire deployment process.
-- **Extensible** The control framework structure adopts a layered modular design aimed at enhancing system maintainability and extensibility. Each functional module of the system has clear logical and functional boundaries, offering a more developer-friendly environment for secondary development. This allows developers to more easily customize and extend system functionalities.
-- **Easy to Understand** The code structure is concise, adhering to the principle of modular  encapsulation based on functionality. It uses a bus for data interaction  between modules, reducing encapsulation redundancy and helping to lower  code complexity. Algorithm implementations follow a simple  "read-compute-write" logic, enhancing code comprehensibility.
-  
-  <center><img src="./assets/行走.gif" alt="行走" style="zoom:50%;" /><img src="./assets/踩障碍.gif" alt="踩障碍" style="zoom:50%;" /></center>
+<center><img src="./assets/行走.gif" alt="行走" style="zoom:50%;" /><img src="./assets/踩障碍.gif" alt="踩障碍" style="zoom:50%;" /></center>
 
-## Changelog
+## 更新日志
 
 2024.06.29
 
-1. Added two new demos, `walk_wbc_joystick` and `walk_mpc_wbc_joystick`, which allow keyboard-controlled robot movement and enable turning functionality.
+1. 添加了两个新演示，`walk_wbc_joystick` 和 `walk_mpc_wbc_joystick`，允许通过键盘控制机器人运动并启用转向功能。
 
 2024.08.12
 
-1. Fixed the issue of incorrect sensor data extraction IDs in MuJoCo. Thanks to Xunlong Software for reporting this issue.
-2. Corrected the dimensionality error in the definition of the c matrix in  MPC. Thanks to @geekloong and @yichuanku for reporting this issue.
-3. Fixed the calculation error in the first priority level of the WBC  priority computation. Thanks to @1190201119 for reporting this issue.
-4. Modified the cost function in MPC.
+1. 修复了 MuJoCo 中传感器数据提取 ID 不正确的问题。感谢 Xunlong Software 报告此问题。
+2. 修正了 MPC 中 c 矩阵定义的维度错误。感谢 @geekloong 和 @yichuanku 报告此问题。
+3. 修复了 WBC 优先级计算第一优先级的计算错误。感谢 @1190201119 报告此问题。
+4. 修改了 MPC 中的成本函数。
 
 2024.09.11
 
-1. Added a new branch named "low\_damping\_model," which aligns closely with  the joint response of the physical prototype. This branch provides two  demos: `walk_wbc_joystick` and `walk_mpc_wbc_joystick`.
-2. Added the **Model Replacement** documentation[Tutorial](https://github.com/loongOpen/Openloong-dyn-control/blob/main/Tutorial.md)。
+1. 添加了一个名为 "low\_damping\_model" 的新分支，与物理原型的关节响应紧密对齐。该分支提供了两个演示：`walk_wbc_joystick` 和 `walk_mpc_wbc_joystick`。
+2. 添加了 **模型替换** 文档[Tutorial](https://github.com/loongOpen/Openloong-dyn-control/blob/main/Tutorial.md)。
 
-## Environment Installation
+## 环境安装
 
-**Environment Suggestion**
+**环境建议**
 
-- Operation System：Ubuntu 22.04.4 LTS
-- Compiler：g++ 11.4.0
+- 操作系统：Ubuntu 22.04.4 LTS
+- 编译器：g++ 11.4.0
 
-**Dependent Installation**
+**依赖安装**
 
-This repository is based on MuJoCo for simulation testing of the "Qinglong" humanoid robot. The repository also includes the MuJoCo simulation engine, the Pinocchio dynamics library, Eigen, the Quill logging tool, the GLFW graphics library, and the JsonCpp parsing library. However, the simulation interface requires system support for OpenGL, which needs to be installed.
+该代码库基于 MuJoCo 进行“青龙”类人机器人仿真测试。代码库还包括 MuJoCo 仿真引擎、Pinocchio 动力学库、Eigen、Quill 日志工具、GLFW 图形库和 JsonCpp 解析库。然而，仿真接口需要系统支持 OpenGL，需进行安装。
 
-```Bash
-# Update & Install Dependencies
+```bash
+# 更新并安装依赖
 sudo apt-get update
 sudo apt install git cmake gcc-11 g++-11
 sudo apt install libglu1-mesa-dev freeglut3-dev
 ```
 
-## Installation Guide 
+## 安装指南
 
-**Code Acquisition and Compilation**
+**代码获取与编译**
 
-```Bash
-# Clone
+```bash
+# 克隆
 git clone https://github.com/loongOpen/Openloong-dyn-control.git
 
-# Build
-cd openloong-dyn-control
+# 编译
+cd Openloong-dyn-control
 mkdir build
 cd build
 cmake ..
 make
 
-# mujoco simulation
-./walk_mpc_wbc #or ./walk_wbc or ./jump_mpc
+# Mujoco 仿真
+./walk_mpc_wbc # 或 ./walk_wbc 或 ./jump_mpc
 ```
 
-**Simulation performance**
+**仿真性能**
 
 <img src="./assets/demo.png" alt="demo" style="zoom:50%;" />
 
-## **Code Explanation**
+## **代码说明**
 
-Refer to the API interface of this code.[Document](https://www.openloong.org.cn/pages/api/html/index.html)and[Wiki](https://www.openloong.org.cn/pages/wiki/html/index.html)。
+请参考该代码的 API 接口。[文档](https://www.openloong.org.cn/pages/api/html/index.html)和[Wiki](https://www.openloong.org.cn/pages/wiki/html/index.html)。
 
-**Explanation of Main Prefixes and Suffixes**
+**主要前缀和后缀说明**
 
-| Prefixes and Suffixes         | Explanation                      |
+| 前缀和后缀         | 说明                      |
 | ---------------- | -------------------------- |
-| *_L, _W*         | in local frame、in global frame |
-| *fe_*            | endpoint of feet                     |
-| *_L, _l, _R, _r* | left|right               |
-| *swing,* *sw*    | swing leg               |
-| *stance,* *st*   | support leg                     |
-| *eul, rpy*       | Attitude Angle                     |
-| *omega*          | angular velocity                   |
-| *pos*            | position                      |
-| *vel*            | linear velocity                  |
-| *tor**, tau*     | torque                      |
-| *base*           | *BaseLink*                 |
-| *_des*           | Expected Value                     |
-| *_cur*           | cur                 |
-| *_rot*           | 坐标变换矩阵               |
+| *_L, _W*         | 在局部框架、在全局框架    |
+| *fe_*            | 脚的末端                  |
+| *_L, _l, _R, _r* | 左|右                       |
+| *swing,* *sw*    | 摆动腿                    |
+| *stance,* *st*   | 支撑腿                    |
+| *eul, rpy*       | 姿态角                    |
+| *omega*          | 角速度                    |
+| *pos*            | 位置                      |
+| *vel*            | 线速度                    |
+| *tor**, tau*     | 力矩                      |
+| *base*           | *BaseLink*                |
+| *_des*           | 期望值                    |
+| *_cur*           | 当前值                    |
+| *_rot*           | 坐标变换矩阵              |
 
-## Development Guide
+## 开发指南
 
-**Key Control Parameters**
+**关键控制参数**
 
-- MPC Weights
+- MPC 权重
 
-```C++
-//MPC.h
-void    set_weight(double u_weight, Eigen::MatrixXd L_diag, Eigen::MatrixXd K_diag);
-//*u_weight* ：Minimum weight of system input
-//*L_diag* ：Weight of system state and desired error, ordered as eul, pos, omega, vel
-//*K_diag* ：Weight of system input, ordered as fl, tl, fr, tr
+```cpp
+// MPC.h
+void set_weight(double u_weight, Eigen::MatrixXd L_diag, Eigen::MatrixXd K_diag);
+//*u_weight* ：系统输入的最小权重
+//*L_diag* ：系统状态和期望误差的权重，顺序为 eul, pos, omega, vel
+//*K_diag* ：系统输入的权重，顺序为 fl, tl, fr, tr
 ```
 
-- WBC Task Priorities
+- WBC 任务优先级
 
-```C++
-//WBC_QP.cpp
-std::vector<std::string taskOrder;
+```cpp
+// WBC_QP.cpp
+std::vector<std::string> taskOrder;
 taskOrder.emplace_back("RedundantJoints");
 taskOrder.emplace_back("static_Contact");
 taskOrder.emplace_back("Roll_Pitch_Yaw_Pz");
 taskOrder.emplace_back("PxPy");
 taskOrder.emplace_back("SwingLeg");
 taskOrder.emplace_back("HandTrack");
-//Adjust task priority order
+// 调整任务优先级顺序
 ```
 
-- WBC Weights
+- WBC 权重
 
-```C++
-//PriorityTasks.h
-Eigen::MatrixXd Kp;                // Position error weight for a specific WBC priority
-Eigen::MatrixXd Kd;                // Velocity error weight for a specific WBC priority
-//WBC_QP.h
-Eigen::MatrixXd Q1;                // External contact force and expected error weight, ordered as fl, tl, fr, tr
-Eigen::MatrixXd Q2;                // Joint acceleration and expected error weight
+```cpp
+// PriorityTasks.h
+Eigen::MatrixXd Kp;                // 特定 WBC 优先级的位置信息误差权重
+Eigen::MatrixXd Kd;                // 特定 WBC 优先级的速度信息误差权重
+// WBC_QP.h
+Eigen::MatrixXd Q1;                // 外部接触力和期望误差权重，顺序为 fl, tl, fr, tr
+Eigen::MatrixXd Q2;                // 关节加速度和期望误差权重
 ```
 
-- Swing Leg Trajectory
+- 摆动腿轨迹
 
-```C++
-//FootPlacement.h
-double kp_vx;                                 // Adjustment parameter for foot placement in x direction
-double kp_vy;                                 // Adjustment parameter for foot placement in y direction
-double kp_wz;                                 // Adjustment parameter for foot placement in z direction
-double stepHeight;                            // Step height
-//FootPlacement.cpp
-double    FootPlacement::Trajectory(double phase, double des1, double des2);        //Swing Leg Trajectory in z direction
-//phase：Swing phase reaching the highest point
-//des1：Highest trajectory position
-//des2：Final trajectory position
+```cpp
+// FootPlacement.h
+double kp_vx;                                 // x 方向脚的位置调整参数
+double kp_vy;                                 // y 方向脚的位置调整参数
+double kp_wz;                                 // z 方向脚的位置调整参数
+double stepHeight;                            // 步高
+// FootPlacement.cpp
+double FootPlacement::Trajectory(double phase, double des1, double des2);        // 摆动腿的 z 方向轨迹
+// phase：摆动阶段达到最高点
+// des1：最高轨迹位置
+// des2：最终轨迹位置
 ```
 
-- Gait Control
+- 步态控制
 
-```C++
-//GaitScheduler.h
-double tSwing;                                         // Single step duration  
-double FzThrehold;                                     // Ground contact force threshold
-//GaitScheduler.cpp
-DataBus::LegState legState=DataBus::RS;                // Initial swing leg
+```cpp
+// GaitScheduler.h
+double tSwing;                                         // 单步持续时间  
+double FzThrehold;                                     // 地面接触力阈值
+// GaitScheduler.cpp
+DataBus::LegState legState=DataBus::RS;                // 初始摆动腿
 ```
 
-- Joint Parameters
+- 关节参数
 
 ```json
-//JointCtrConfig.json
+// JointCtrConfig.json
    "Joint-ankle-l-pitch" : {
       "PVT_LPF_Fc" : 20,
       "kd" : 5.0,
@@ -185,38 +177,37 @@ DataBus::LegState legState=DataBus::RS;                // Initial swing leg
    }
 ```
 
-**Model Replacement Guide**
+**模型替换指南**
 
-Refer to the[Tutorial](https://github.com/loongOpen/Openloong-dyn-control/blob/main/Tutorial.md)document for model replacement.
+请参考模型替换的[Tutorial](https://github.com/loongOpen/Openloong-dyn-control/blob/main/Tutorial.md)文档。
 
-## Reference
+## 参考文献
 
 [1] D. Kim, J. D. Carlo, B. Katz, G. Bledt, S. Kim, Highly dynamic quadruped locomotion via whole-body impulse control and model predictive control. arXiv:1909.06586 (2019).
 
 [2] Kim D, Jorgensen S J, Lee J, et al. Dynamic locomotion for passive-ankle biped robots and humanoids using whole-body locomotion control. arXiv:1901.08100 (2020).
 
-[3] Di Carlo J, Wensing P M, Katz B, et al. Dynamic locomotion in the mit  cheetah 3 through convex model-predictive control[C]//2018 IEEE/RSJ  international conference on intelligent robots and systems (IROS). IEEE, 2018: 1-9.
+[3] Di Carlo J, Wensing P M, Katz B, et al. Dynamic locomotion in the MIT cheetah 3 through convex model-predictive control[C]//2018 IEEE/RSJ international conference on intelligent robots and systems (IROS). IEEE, 2018: 1-9.
 
 [4] 卞泽坤, 王兴兴. 四足机器人控制算法: 建模、控制与实践[M]. 机械工业出版社, 2023
 
-## Citation Format
+## 引用格式
 
-If you use the code from this open-source project, please cite it as follows:
+如果您使用了该开源项目中的代码，请按以下格式引用：
 
-```JavaScript
+```javascript
 @software{Robot2024OpenLoong,
   author = {Humanoid Robot (Shanghai) Co., Ltd},
-  title = {{OpenLoong-DynamicsControl: Motion control framework of humanoid robot based on MPC and WBC}},
+  title = {{OpenLoong-DynamicsControl: 基于 MPC 和 WBC 的类人机器人运动控制框架}},
   url = {https://github.com/loongOpen/Openloong-dyn-control.git},
   year = {2024}
 }
 ```
 
-## Contact Information
+## 联系信息
 
-Developers are welcome to contribute to the optimization and improvement of this code repository!
+欢迎开发者为该代码库的优化和改进做出贡献！
 
-[💬 Start a Discussion](https://github.com/orgs/loongOpen/discussions) | [📝 Report an Issue](https://github.com/loongOpen/Openloong-dyn-control/issues) | [📨 Submit a Change Request](https://github.com/loongOpen/Openloong-dyn-control/pulls)
+[💬 开始讨论](https://github.com/orgs/loongOpen/discussions) | [📝 报告问题](https://github.com/loongOpen/Openloong-dyn-control/issues) | [📨 提交变更请求](https://github.com/loongOpen/Openloong-dyn-control/pulls)
 
-For any questions or suggestions regarding this code, please contact <open@openloong.org.cn>
-
+如有任何关于本代码的问题或建议，请联系 <open@openloong.org.cn>
