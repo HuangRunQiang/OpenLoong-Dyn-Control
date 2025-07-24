@@ -1,133 +1,131 @@
-# Humanoid Motion Control Framework based on MPC and WBC
+# 基于 MPC 和 WBC 的类人运动控制框架
 
-Welcome to OpenLoong Dynamics Control Project's documentation!
+欢迎来到 OpenLoong 动态控制项目的文档！
 
-OpenLoong Dynamics Control Project is an open-source project led by Humanoid Robot (Shanghai) Co., Ltd, Shanghai Humanoid Robot Manufacturing Innovation Center and OpenAtom Foundation.
+OpenLoong 动态控制项目是由上海类人机器人有限公司、上海类人机器人制造创新中心和 OpenAtom 基金会主导的开源项目。
 
-This project provides a MPC-WBC based control framework based on the "AzureLoong" robot model in Shanghai Humanoid Robotics Innovation Center, which runs on Mujoco and shows three examples including walking, jumping and blindly stepping over obstales. [Project Homepage](http://aa.com)
+该项目基于上海类人机器人创新中心的“AzureLoong”机器人模型，提供了一个基于 MPC-WBC 的控制框架，运行在 Mujoco 上，并展示了包括行走、跳跃和盲目跨越障碍物的三个示例。[项目主页](http://aa.com)
 
-## Attribute
-**Easy to Deploy**: This project provides a comprehensive solution for humanoid control. The code is self-contained so that users can easily configure their working environment and run without installing other dependencies to simplify the deploying process.
+## 属性
+**易于部署**：该项目提供了一个全面的类人控制解决方案。代码是自包含的，用户可以轻松配置工作环境，无需安装其他依赖项，从而简化了部署过程。
 
-**Easy to Understand**: The humanoid control framework structure adopts a hierarchical modular design, improving the maintainability and expandability of the system. The design draws clear boundaries for all the modules of the system in terms of logic and function, which provides a more friendly environment for secondary development and enables the developers to customize and expand the functions more easily.
+**易于理解**：类人控制框架结构采用层次化模块设计，提高了系统的可维护性和可扩展性。设计为系统的所有模块在逻辑和功能上划定了明确的边界，为二次开发提供了更友好的环境，使开发者能够更轻松地自定义和扩展功能。
 
-**Easy to Develop**: The code structure is simple, following the code design principle of module encapsulation for function, applying bus for data interaction between modules, reducing encapsulation redundancy, and helping to reduce code complexity; algorithm implementation adopts the simple logic of "read-calculate-write", which improves the readability of the code.
+**易于开发**：代码结构简单，遵循功能模块封装的设计原则，使用总线进行模块间的数据交互，减少封装冗余，帮助降低代码复杂性；算法实现采用简单的“读-计算-写”逻辑，提高了代码的可读性。
 
 <img src="figure1.png" alt="im" width="700" height="400" />
-<!-- <img src="resources/images/figure1.png" alt="im" style="zoom:40%;" /> -->
 
-# User Manual
-## Setup the environment
-### suggested platform
-- operate sysem: Ubuntu 22.04.4 LTS
-- compile: GCC 11.4.0
-### install dependencies
-This repository simulates the "AzureLoong" humanoid robot. Some dependencies including mujoco, pinocchio, eigen, quill, GLFW, jsoncpp are already contained in the code, but the simulation still needs openGL, which can be installed by executing the following instruction:
+# 用户手册
+## 环境设置
+### 建议平台
+- 操作系统：Ubuntu 22.04.4 LTS
+- 编译器：GCC 11.4.0
+### 安装依赖
+此代码库模拟“AzureLoong”类人机器人。代码中已经包含一些依赖项，包括 Mujoco、Pinocchio、Eigen、Quill、GLFW 和 JsonCpp，但仿真仍需要 OpenGL，可以通过执行以下指令安装：
 ```shell
 sudo apt install libglu1-mesa-dev freeglut3-dev
 ```
-## Code Fetch and Compilation
-The code can be downloaded in gitee
-or you can clone the repository using git
+## 代码获取与编译
+代码可以在 Gitee 下载，或者您可以使用 git 克隆代码库：
 ```shell
-# Clone
+# 克隆
 git clone https://atomgit.com/openloong/openloong-dyn-control.git
 
-# Build
+# 编译
 cd openloong-dyn-control
 mkdir build
 cd build
 cmake ..
 make
 
-# mujoco simulation
-./Walk_mpc_wbc #or ./Walk_wbc or ./Jump_mpc
+# Mujoco 仿真
+./Walk_mpc_wbc # 或 ./Walk_wbc 或 ./Jump_mpc
 ```
 
-## Code Description
-[This](http://cc.com) is the API documentation for the code.
+## 代码说明
+[这是](http://cc.com)代码的 API 文档。
 
-### Abbreviations
-| prefix/suffix    | meaning                    |
-| ---------------- | -------------------------- |
-| *L*, *W*         | local frame, world frame |
-| *fe*            | foot end                     |
-| *L*, *l*, *R*, *r* | left, right                 |
-| *swing,* *sw*    | swing leg                 |
-| *stance*, *st*   | stance leg                     |
-| *eul*, *rpy*       | angular position expressed by euler angle      |
-| *omega*          | angular velocity                     |
-| *pos*            | linear position                     |
-| *vel*            | linear velocity                     |
-| *tor*, *tau*     | torque at joint                       |
-| *base*           | baselink                 |
-| *des*           | desired value                     |
-| *cur*           | current value                 |
-| *rot*           | rotation matrix               |
+### 缩写
+| 前缀/后缀    | 说明                    |
+| ------------ | ------------------------ |
+| *L*, *W*     | 局部框架，世界框架      |
+| *fe*         | 脚的末端                |
+| *L*, *l*, *R*, *r* | 左，右                 |
+| *swing*, *sw* | 摆动腿                  |
+| *stance*, *st* | 支撑腿                  |
+| *eul*, *rpy* | 用欧拉角表示的角位置    |
+| *omega*      | 角速度                  |
+| *pos*        | 线性位置                |
+| *vel*        | 线性速度                |
+| *tor*, *tau* | 关节处的力矩            |
+| *base*       | 基座链接                |
+| *des*        | 期望值                  |
+| *cur*        | 当前值                  |
+| *rot*        | 旋转矩阵                |
 
-## Developer's Guide
+## 开发者指南
 
-### key control parameters
-- MPC parameters
+### 关键控制参数
+- MPC 参数
 ```C
-//MPC.h
-void    set_weight(double u_weight, Eigen::MatrixXd L_diag, Eigen::MatrixXd K_diag);
-//*u_weight* : the minimal weight of control input
-//*L_diag* : the weight of error compared to desired values, following the order (eul, pos, omega, vel)
-//*K_diag* : the weight of control input, following the order (fl, tl, fr, tr)
+// MPC.h
+void set_weight(double u_weight, Eigen::MatrixXd L_diag, Eigen::MatrixXd K_diag);
+// *u_weight* : 控制输入的最小权重
+// *L_diag* : 与期望值相比的误差权重，顺序为 (eul, pos, omega, vel)
+// *K_diag* : 控制输入的权重，顺序为 (fl, tl, fr, tr)
 ```
 
-- WBC priority
+- WBC 优先级
 ```C
-//WBC_QP.cpp
-std::vector<std::string taskOrder;
+// WBC_QP.cpp
+std::vector<std::string> taskOrder;
 taskOrder.emplace_back("RedundantJoints");
 taskOrder.emplace_back("static_Contact");
 taskOrder.emplace_back("Roll_Pitch_Yaw_Pz");
 taskOrder.emplace_back("PxPy");
 taskOrder.emplace_back("SwingLeg");
 taskOrder.emplace_back("HandTrack");
-// add task or adjust the priority here
+// 在此添加任务或调整优先级
 ```
 
-- WBC weight
+- WBC 权重
 ```C
-//PriorityTasks.h
-Eigen::MatrixXd Kp;                //weight of position error
-Eigen::MatrixXd Kd;                //weight of velocity eror
-//WBC_QP.h
-Eigen::MatrixXd Q1;                //weight of the contact force error compared to desired, following the order (fl, tl, fr, tr)
-Eigen::MatrixXd Q2;                //weight of the acceleration tracking error
+// PriorityTasks.h
+Eigen::MatrixXd Kp;                // 位置误差权重
+Eigen::MatrixXd Kd;                // 速度误差权重
+// WBC_QP.h
+Eigen::MatrixXd Q1;                // 与期望接触力的误差权重，顺序为 (fl, tl, fr, tr)
+Eigen::MatrixXd Q2;                // 加速度跟踪误差的权重
 ```
 
-- Swing leg trajectory
+- 摆动腿轨迹
 ```C
-//FootPlacement.h
-double kp_vx;                                 //x-direction footplacement parameter
-double kp_vy;                                 //y-direction footplacement parameter
-double kp_wz;                                 //z-direction posture parameter
-double stepHeight;                            //the maximal step height
+// FootPlacement.h
+double kp_vx;                                 // x 方向脚的位置参数
+double kp_vy;                                 // y 方向脚的位置参数
+double kp_wz;                                 // z 方向姿态参数
+double stepHeight;                            // 最大步高
 
-//FootPlacement.cpp
-double    FootPlacement::Trajectory(double phase, double des1, double des2);        //z-direction posture trajectory
-//phase：the phase when reaching the highest
-//des1：the highest position along the trajectory
-//des2：the final position of the trajectory
+// FootPlacement.cpp
+double FootPlacement::Trajectory(double phase, double des1, double des2);        // z 方向姿态轨迹
+// phase：达到最高点的阶段
+// des1：轨迹中的最高位置
+// des2：轨迹的最终位置
 ```
 
-- Gait control
+- 步态控制
 ```C
-//GaitScheduler.h
-double tSwing;                                         //the time of one step
-double FzThrehold;                                     //the maximal force when touching the ground
+// GaitScheduler.h
+double tSwing;                                         // 单步时间
+double FzThrehold;                                     // 接触地面时的最大力
 
-//GaitScheduler.cpp
-DataBus::LegState legState=DataBus::RSt;                //the first step state
+// GaitScheduler.cpp
+DataBus::LegState legState = DataBus::RSt;                // 第一步状态
 ```
 
-- Joint parameter
-```C
-//JointCtrConfig.json
+- 关节参数
+```json
+// JointCtrConfig.json
    "Joint-ankle-l-pitch" : {
       "PVT_LPF_Fc" : 20,
       "kd" : 5.0,
@@ -139,12 +137,12 @@ DataBus::LegState legState=DataBus::RSt;                //the first step state
    }
 ```
 
-### Instructions to replace robot model
-**1. model file**
+### 替换机器人模型的说明
+**1. 模型文件**
 
-a. xml file preparation
+a. XML 文件准备
 
-prepare the urdf (.urdf) file and mesh file (.stl) of the robot for adding the mujoco compiling tags
+准备机器人的 URDF (.urdf) 文件和网格文件 (.stl)，以添加 Mujoco 编译标签：
 ```XML
 <mujoco>
 <compiler
@@ -154,27 +152,26 @@ prepare the urdf (.urdf) file and mesh file (.stl) of the robot for adding the m
 </mujoco>
 ```
 
-change the working directory to `mujoco-3.x.x/bin`, run the command:
+将工作目录更改为 `mujoco-3.x.x/bin`，运行命令：
 ```shell
 ./simulate
 ```
 
-drag the URDF file into the simulation interface, after the model displaying correctly save the XML file. You should note the path of the mesh files.
+将 URDF 文件拖入仿真界面，模型正确显示后保存 XML 文件。请注意网格文件的路径。
 
-You can also reference the Mujoco [documentation](https://mujoco.readthedocs.io/en/stable/XMLreference.html) to set tags like `compiler`, `option` or `asset` to customize `body`, `actuator` and `sensor` etc.
+您还可以参考 Mujoco [文档](https://mujoco.readthedocs.io/en/stable/XMLreference.html)来设置标签，如 `compiler`、`option` 或 `asset`，以自定义 `body`、`actuator` 和 `sensor` 等。
 
-| parent label    | child label                   |
-| ----------- | ------------------------------------------------------------ |
-| *worldbody* | define light, camera, floor and robot(inertial、joint、freejoint、geom、site、camera、light etc) |
-| *actuator*  | define actuators (motor、position、velocity etc)                        |
-| *sensor*    | define the sensors and adjust the sensors parameters like noises                 |
+| 父标签        | 子标签                    |
+| -------------- | ------------------------- |
+| *worldbody*    | 定义光源、相机、地面和机器人（包括惯性、关节、自由关节、几何体、位置、相机、光源等） |
+| *actuator*     | 定义执行器（电机、位置、速度等） |
+| *sensor*       | 定义传感器并调整传感器参数，如噪声 |
 
+b. 替换模型
 
-b. replace the model
+以“AzureDragon 机器人”为例：在 *base_link* 下，有四个并联连接：头部 *Link_head_*、腰部 *Link_waist_*、左臂 *Link_arm_l_* 和右臂 *Link_arm_r_*。左臂和右臂各有 7 个自由度，头部有 2 个自由度。腰部有 3 个自由度，包括俯仰 *Link_waist_pitch*、滚转 *Link_waist_roll*、偏航 *Link_waist_yaw* 等，左腿和右腿并联连接，每条腿依次连接三个髋关节 *Link_hip* 和一个膝关节 *Link_knee_*，两个踝关节 *Link_ankle_*，总共 6 个自由度。这完成了所有 31 个自由度的配置。
 
-Take the "AzureDragon robot" as an example: under *base_link*, there are four tandem connections in parallel: the head *Link_head_*, the waist *Link\_waist\_*, the left arm *Link\_arm\_l\_*, and the right arm *Link\_arm\_r\_* branches. The left arm and right arm branches each have 7 degrees of freedom and the head branch has 2 degrees of freedom. The waist branch has 3 degrees of freedom including pitch *Link\_waist\_pitch*, roll *Link\_waist\_roll*, yaw *Link\_waist\_yaw*, etc., and the left leg and right leg branches are connected in parallel, and each leg is connected with three hip joints *Link\_hip* and one knee joint *Link\_knee\_* in turn, two ankle joints *Link\_ankle\_* and in total 6 degrees of freedom. This completes the configuration of all the 31 degrees of freedom.
-
-You can reference this configuration and try to customize your configuration
+您可以参考此配置并尝试自定义您的配置：
 ```XML
 <worldbody>
     <body name="base_link" pos="x x x">
@@ -199,19 +196,19 @@ You can reference this configuration and try to customize your configuration
 </worldbody>
 ```
 
-In this case, two branches are connected in parallel under *base_link*, one branch consists of *body1* and *body2* in series, and the other branch consists of *body3*. If the robot has a floating base, add the free joint *freejoint* under *body* named *base\_link* above. If the robot is a fixed base, remove the *freejoint* . Optionally,  *freejoint* can be masked out during the model configuration phase, if desired.
+在这种情况下，两条分支在 *base_link* 下并联连接，一条分支由 *body1* 和 *body2* 串联组成，另一条分支由 *body3* 组成。如果机器人有浮动基座，则在上述名为 *base_link* 的 *body* 下添加自由关节 *freejoint*。如果机器人是固定基座，则移除 *freejoint*。在模型配置阶段，如果需要，可以选择性地隐藏 *freejoint*。
 
-This project sets actuator for each of the 31 joints.
+该项目为所有 31 个关节设置了执行器。
 ```XML
 <actuator>
-    <motor name="motor1"  joint="joint1" gear="x" ctrllimited="true" ctrlrange="x x"/>
+    <motor name="motor1" joint="joint1" gear="x" ctrllimited="true" ctrlrange="x x"/>
     ...
 </actuator>
 ```
 
-The user can define the corresponding actuators at the active joints depending on the degrees of freedom of the robot.
+用户可以根据机器人的自由度定义相应的执行器。
 
-The project is configured with sensors such as quaternion *framequat*, velocimeter *velocimeter*, angular velocimeter *gyro*, accelerometer *accelerometer*, which are mounted at the *site* already defined in the *body* tag, and can be added according to the needs of *touch*, *force*, *torque*, *jointpos*, *jointvel*, *actuatorfrc* and other sensors can be added as required.
+该项目配置了传感器，如四元数 *framequat*、速度计 *velocimeter*、角速度计 *gyro*、加速度计 *accelerometer*，这些传感器已安装在 *body* 标签中定义的 *site* 上，并可以根据需要添加触觉、力、扭矩、关节位置、关节速度、执行器力等传感器。
 ```XML
 <sensor>
     <framequat name="xx" objtype="site" objname="imu" />
@@ -220,40 +217,39 @@ The project is configured with sensors such as quaternion *framequat*, velocimet
     <accelerometer name="xx" site="imu" />
 </sensor>
 ```
-In addition to the degree of freedom configuration, actuator configuration, sensor configuration, other more specific parameter modifications can refer to the Mojoco official [documentation](https://mujoco.readthedocs.io/en/stable/XMLreference.html).
+除了自由度配置、执行器配置、传感器配置外，其他更具体的参数修改可以参考 Mujoco 官方 [文档](https://mujoco.readthedocs.io/en/stable/XMLreference.html)。
 
+**2. 控制代码和 Mujoco 接口**
 
-**2. Control code and Mujoco interface**
-
-Use fuction `mj_loadXML`、`mj_makeData`to get `mjModel`、`mjData` struct. You can reference the [documentation](https://mujoco.readthedocs.io/en/stable/XMLreference.html) for more details of `mjModel`、`mjData`、`mjOption`.
+使用函数 `mj_loadXML`、`mj_makeData` 获取 `mjModel`、`mjData` 结构。您可以参考 [文档](https://mujoco.readthedocs.io/en/stable/XMLreference.html) 获取有关 `mjModel`、`mjData`、`mjOption` 的更多详细信息。
 ```c
 mjModel* mj_model = mj_loadXML("../Models/xxx.xml", 0, error, 1000);
 mjData* mj_data = mj_makeData(mj_model);
 ```
 
-`mj_model->nv` is the dimension of generalized velocity coordinate, i.e. the linear velocity, angular velocity of the floating base, and the velocity of the 31 joints of the rotational type. The variables related to the degrees of freedom in the program framework of the project are corresponding to `mj_model->nv-6`, and the dynamics library will automatically get the dimensions of the degrees of freedom of the robot according to the URDF, where all the dimension information are defined. Thus users don't have to modify it in the program manually.
+`mj_model->nv` 是广义速度坐标的维度，即浮动基座的线性速度、角速度以及 31 个旋转型关节的速度。项目框架中与自由度相关的变量对应于 `mj_model->nv-6`，动力学库将根据 URDF 自动获取机器人的自由度维度，所有维度信息都在其中定义。因此，用户无需在程序中手动修改。
 
-As the access to the addresses of *body*, *joint*, *motor* and other components of this project relies on querying the name string and locking the address, when a component is modified, it will not affect the data reading and writing of other *body*, *joint*, and provide convenience for modifying the model compared to the direct indexing number. When modifying the control parameters of a certain degree of freedom in the model, you only need to modify the `JointName` of *MJ\_Interface.h*, the `motorName` of *Pin\_KinDyn.h*, the `motorName` of *PVT\_Ctr.h*, and the variables corresponding to the name of a certain degree of freedom in the *JointCtrConfig.json* file. For example, to modify the stiffness of `J_waist_pitch`, you need to modify `J_waist_pitch` and the corresponding PD parameter in *JointCtrConfig.json*, and the name of `J_waist_pitch` corresponds to the *joint name*, *motor name* in the xml file.
+由于访问该项目的 *body*、*joint*、*motor* 和其他组件的地址依赖于查询名称字符串并锁定地址，因此当某个组件被修改时，不会影响其他 *body*、*joint* 的数据读取和写入，相比直接索引数字提供了便利。在修改模型中某个自由度的控制参数时，只需修改 *MJ_Interface.h* 中的 `JointName`、*Pin_KinDyn.h* 中的 `motorName`、*PVT_Ctr.h* 中的 `motorName`，以及 *JointCtrConfig.json* 文件中与某个自由度名称对应的变量。例如，要修改 `J_waist_pitch` 的刚度，您需要修改 `J_waist_pitch` 及其在 *JointCtrConfig.json* 中的对应 PD 参数，`J_waist_pitch` 的名称对应于 XML 文件中的 *joint name* 和 *motor name*。
 
-The sensor data address is also accessed by querying the name string to find the address, adding or deleting sensors can be done by modifying the corresponding sensor name in *MJ\_Interface.h*.
+传感器数据地址也是通过查询名称字符串找到地址来访问的，添加或删除传感器可以通过修改 *MJ_Interface.h* 中对应的传感器名称来完成。
 
-# References
-[1] D. Kim, J. D. Carlo, B. Katz, G. Bledt, S. Kim, Highly dynamic quadruped locomotion via whole-body impulse control and model predictive control. arXiv:1909.06586 (2019).
+# 参考文献
+[1] D. Kim, J. D. Carlo, B. Katz, G. Bledt, S. Kim, Highly dynamic quadruped locomotion via whole-body impulse control and model predictive control. arXiv:1909.06586 (2019)。
 
-[2] Kim D, Jorgensen S J, Lee J, et al. Dynamic locomotion for passive-ankle biped robots and humanoids using whole-body locomotion control. arXiv:1901.08100 (2020).
+[2] Kim D, Jorgensen S J, Lee J, et al. Dynamic locomotion for passive-ankle biped robots and humanoids using whole-body locomotion control. arXiv:1901.08100 (2020)。
 
-[3] Di Carlo J, Wensing P M, Katz B, et al. Dynamic locomotion in the mit  cheetah 3 through convex model-predictive control[C]//2018 IEEE/RSJ  international conference on intelligent robots and systems (IROS). IEEE, 2018: 1-9.
+[3] Di Carlo J, Wensing P M, Katz B, et al. Dynamic locomotion in the MIT Cheetah 3 through convex model-predictive control[C]//2018 IEEE/RSJ international conference on intelligent robots and systems (IROS). IEEE, 2018: 1-9。
 
-# Citation
+# 引用
 ```Java
 @software{Robot2024OpenLoong,
   author = {Humanoid Robot (Shanghai) Co., Ltd},
-  title = {{OpenLoong-DynamicsControl: Motion control framework of humanoid robot based on MPC and WBC}},
+  title = {{OpenLoong-DynamicsControl: 基于 MPC 和 WBC 的类人机器人运动控制框架}},
   url = {https://atomgit.com/openloong/openloong-dyn-control.git},
   year = {2024}
 }
 ```
-# Contact us
-Developers are welcome to participate in the optimization and improvement of this code base!
+# 联系我们
+欢迎开发者参与优化和改进此代码库！
 
-You can comment on existing content, give feedback on issues, contribute your original content, etc. If you have any questions or suggerstions, please contact web@openloong.org.cn
+您可以对现有内容进行评论，反馈问题，贡献您的原创内容等。如果您有任何问题或建议，请联系 web@openloong.org.cn
